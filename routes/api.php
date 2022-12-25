@@ -33,8 +33,22 @@ Route::get('hello_list', function () {
     return response()->json($data);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [\App\Http\Controllers\AuthController::class, 'user']);
+
+    Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+    Route::get('protected_hello_list', function () {
+        return [
+            'first' => 'ABC',
+            'second' => 'EFG',
+            'third' => 'HIG',
+        ];
+    });
+
+    Route::apiResource('users', \App\Http\Controllers\UserController::class);
+
+//    Route::post('upload', [ImageController::class, 'upload']);
 });
 
 Route::get('tests', [\App\Http\Controllers\TestController::class, 'test']);
