@@ -52,6 +52,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
+//        return response($user, Response::HTTP_OK);
         return response(new UserResource($user), Response::HTTP_OK);
     }
 
@@ -67,6 +68,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->only('name', 'email', 'role', 'avatar'));
 
+//        return response($user, Response::HTTP_ACCEPTED);
         return response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
     /**
@@ -79,6 +81,6 @@ class UserController extends Controller
     {
         User::destroy($id);
 
-        return \response(null, Response::HTTP_NO_CONTENT);
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
