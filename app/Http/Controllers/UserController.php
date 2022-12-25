@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,9 +19,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get()->toJson(JSON_PRETTY_PRINT);
+        $users = User::get();
 
-        return response($users, Response::HTTP_OK);
+//        return response($users, Response::HTTP_OK);
+        return response(UserResource::collection($users), Response::HTTP_OK);
     }
 
     /**
@@ -44,9 +46,10 @@ class UserController extends Controller
         $user = User::create(
             $request->only('name',  'email','role','avatar')
             + ['password' => Hash::make(1234)]
-        )->toJson(JSON_PRETTY_PRINT);
+        );
 
-        return response($user, Response::HTTP_CREATED);
+//        return response($user, Response::HTTP_CREATED);
+        return response(new UserResource($user), Response::HTTP_CREATED);
     }
 
     /**
@@ -57,9 +60,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id)->toJson(JSON_PRETTY_PRINT);
+        $user = User::find($id);
 
-        return response($user, Response::HTTP_OK);
+        return response(new UserResource($user), Response::HTTP_OK);
     }
 
     /**
@@ -85,7 +88,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->only('name', 'email', 'role', 'avatar'));
 
-        return response($user, Response::HTTP_ACCEPTED);
+        return response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
     /**
      * Remove the specified resource from storage.

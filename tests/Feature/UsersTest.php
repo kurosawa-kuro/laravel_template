@@ -79,11 +79,8 @@ class UsersTest extends TestCase
                     'id',
                     'name',
                     'email',
-                    'email_verified_at',
                     'role',
                     'avatar',
-                    'created_at',
-                    'updated_at',
                 ],
             ]
         );
@@ -113,8 +110,6 @@ class UsersTest extends TestCase
                 'email',
                 'role',
                 'avatar',
-                'created_at',
-                'updated_at',
             ]
         );
     }
@@ -133,8 +128,6 @@ class UsersTest extends TestCase
                 'email',
                 'role',
                 'avatar',
-                'created_at',
-                'updated_at',
             ]
         );
     }
@@ -162,12 +155,11 @@ class UsersTest extends TestCase
                 'email',
                 'role',
                 'avatar',
-                'created_at',
-                'updated_at',
             ]
         );
 
-        $this->assertEquals($data['name'], json_decode($response->getOriginalContent())->name);
+        $this->assertEquals($data['name'], json_decode($response->getContent())->name);
+//        $this->assertEquals($data['name'], json_decode($response->getOriginalContent())->name);
     }
 
     public function test_destroy()
