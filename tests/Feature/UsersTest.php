@@ -118,4 +118,55 @@ class UsersTest extends TestCase
             ]
         );
     }
+
+    public function test_show()
+    {
+        $response = $this->get('/api/users/1', [
+            'Authorization' => 'Bearer ' . $this->accessToken
+        ]);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure(
+            [
+                'id',
+                'name',
+                'email',
+                'role',
+                'avatar',
+                'created_at',
+                'updated_at',
+            ]
+        );
+    }
+
+    public function test_update()
+    {
+        $data = [
+            'name' => 'updated aaa',
+            'email' => 'aaa@aaa.aaa',
+            'password' => 'aaa',
+            'password_confirm' => 'aaa',
+            'role' => 'user',
+            'avatar' => 'https://i.pravatar.cc/300',
+        ];
+
+        $response = $this->put('/api/users/1',$data, [
+            'Authorization' => 'Bearer ' . $this->accessToken
+        ]);
+
+        $response->assertStatus(Response::HTTP_ACCEPTED);
+        $response->assertJsonStructure(
+            [
+                'id',
+                'name',
+                'email',
+                'role',
+                'avatar',
+                'created_at',
+                'updated_at',
+            ]
+        );
+
+        $this->assertEquals($data['name'], json_decode($response->getOriginalContent())->name);
+    }
 }

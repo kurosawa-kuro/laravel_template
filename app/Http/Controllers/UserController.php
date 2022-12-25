@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,7 @@ class UserController extends Controller
         $user = User::create(
             $request->only('name',  'email','role','avatar')
             + ['password' => Hash::make(1234)]
-        );
+        )->toJson(JSON_PRETTY_PRINT);
 
         return response($user, Response::HTTP_CREATED);
     }
@@ -56,7 +57,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id)->toJson(JSON_PRETTY_PRINT);
+
+        return response($user, Response::HTTP_OK);
     }
 
     /**
@@ -73,15 +76,17 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UserUpdateRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
-    }
+        $user = User::find($id);
+        $user->update($request->only('name', 'email', 'role', 'avatar'));
 
+        return response($user, Response::HTTP_ACCEPTED);
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -90,6 +95,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+
+        return \response(null, Response::HTTP_NO_CONTENT);
     }
 }
