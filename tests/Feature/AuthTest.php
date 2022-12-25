@@ -48,7 +48,6 @@ class AuthTest extends TestCase
         ];
         $response = $this->post('/api/register', $data);
 
-//        $this->ddResponse($response);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure([
             'id',
@@ -66,36 +65,13 @@ class AuthTest extends TestCase
             'email' => 'aaa@aaa.aaa',
             'password' => Hash::make('aaa'),
         ]);
-//        dd(User::all());
+
         $data = [
             'email' => 'aaa@aaa.aaa',
             'password' => 'aaa',
         ];
         $response = $this->post('/api/login', $data);
 
-//        $this->ddResponse($response);
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'jwt',
-        ]);
-        $this->assertAuthenticated();
-    }
-
-    public function test_user()
-    {
-        User::create([
-            'name' => 'aaa',
-            'email' => 'aaa@aaa.aaa',
-            'password' => Hash::make('aaa'),
-        ]);
-//        dd(User::all());
-        $data = [
-            'email' => 'aaa@aaa.aaa',
-            'password' => 'aaa',
-        ];
-        $response = $this->post('/api/user', $data);
-
-//        $this->ddResponse($response);
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'jwt',
