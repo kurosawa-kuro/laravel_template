@@ -30,29 +30,26 @@ class UsersTest extends TestCase
 
     protected function setUp(): void // ※ Voidが必要
     {
-        // 必ずparent::setUp()を呼び出す
         parent::setUp();
-        // 1.ログインユーザー作成
+
         User::create([
             'name' => 'sample user',
             'email' => 'sample@sankosc.co.jp',
             'password' => Hash::make('sample123'),
         ]);
-        // 2.ログインAPIでアクセストークン取得
+
         $response = $this->post('/api/login', [
             'email' => 'sample@sankosc.co.jp',
             'password' => 'sample123'
         ]);
-//        dd($response->getCookie('jwt')->getValue());
+
         $response->assertOk();
-        // 3.アクセストークンを変数に保存しておく
         try {
 //            $this->accessToken = $response->decodeResponseJson('jwt')->json('jwt');
             $this->accessToken = $response->getCookie('jwt')->getValue();
         } catch (\Throwable $e) {
             echo $e;
         }
-//        dd($this->accessToken);
     }
 
     /**
