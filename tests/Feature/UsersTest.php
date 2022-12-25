@@ -90,47 +90,32 @@ class UsersTest extends TestCase
         $response->assertJsonCount(2);
     }
 
-    public function test_login()
+    public function test_store()
     {
-        User::create([
+        $data = [
             'name' => 'aaa',
             'email' => 'aaa@aaa.aaa',
-            'password' => Hash::make('aaa'),
-        ]);
-//        dd(User::all());
-        $data = [
-            'email' => 'aaa@aaa.aaa',
             'password' => 'aaa',
+            'password_confirm' => 'aaa',
+            'role' => 'user',
+            'avatar' => 'https://i.pravatar.cc/300',
         ];
-        $response = $this->post('/api/login', $data);
 
-//        $this->ddResponse($response);
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'jwt',
+        $response = $this->post('/api/users', $data, [
+            'Authorization' => 'Bearer ' . $this->accessToken
         ]);
-        $this->assertAuthenticated();
-    }
 
-    public function test_user()
-    {
-        User::create([
-            'name' => 'aaa',
-            'email' => 'aaa@aaa.aaa',
-            'password' => Hash::make('aaa'),
-        ]);
-//        dd(User::all());
-        $data = [
-            'email' => 'aaa@aaa.aaa',
-            'password' => 'aaa',
-        ];
-        $response = $this->post('/api/user', $data);
-
-//        $this->ddResponse($response);
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'jwt',
-        ]);
-        $this->assertAuthenticated();
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertJsonStructure(
+            [
+                'id',
+                'name',
+                'email',
+                'role',
+                'avatar',
+                'created_at',
+                'updated_at',
+            ]
+        );
     }
 }
