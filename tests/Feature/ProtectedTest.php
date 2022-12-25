@@ -43,15 +43,16 @@ class ProtectedTest extends TestCase
             'email' => 'sample@sankosc.co.jp',
             'password' => 'sample123'
         ]);
-//        dd($response->decodeResponseJson('jwt'));
+//        dd($response->getCookie('jwt')->getValue());
         $response->assertOk();
         // 3.アクセストークンを変数に保存しておく
         try {
-            $this->accessToken = $response->decodeResponseJson('jwt');
+//            $this->accessToken = $response->decodeResponseJson('jwt')->json('jwt');
+            $this->accessToken = $response->getCookie('jwt')->getValue();
         } catch (\Throwable $e) {
             echo $e;
         }
-//        dd($this->accessToken->json('jwt'));
+//        dd($this->accessToken);
     }
 
     /**
@@ -62,7 +63,7 @@ class ProtectedTest extends TestCase
     public function test_protected_hello_list()
     {
         $response = $this->get('/api/protected_hello_list', [
-            'Authorization' => 'Bearer '.$this->accessToken->json('jwt')
+            'Authorization' => 'Bearer '.$this->accessToken
         ]);
 
 //        $this->ddResponse($response);
