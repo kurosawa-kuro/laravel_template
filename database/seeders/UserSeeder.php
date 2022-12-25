@@ -21,6 +21,25 @@ class UserSeeder extends Seeder
             'password' => Hash::make('aaa'),
         ]);
 
+        User::factory()->create([
+            'name' => 'bbb',
+            'email' => 'bbb@bbb.bbb',
+            'password' => Hash::make('bbb'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'ccc',
+            'email' => 'ccc@ccc.ccc',
+            'password' => Hash::make('ccc'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.admin',
+            'password' => Hash::make('admin'),
+            'role' => 'admin',
+        ]);
+
         User::factory(20)->create();
     }
 }

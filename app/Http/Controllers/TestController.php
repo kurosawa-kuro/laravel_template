@@ -11,6 +11,7 @@ class TestController extends Controller
     public function test()
     {
         $users = User::get()->toJson(JSON_PRETTY_PRINT);
+
         return response($users, Response::HTTP_OK);
     }
 }

@@ -446,3 +446,4 @@ $RECYCLE.BIN/
 */database.sqlite
 */test.sqlite
 backend/public/images/*
+database/database.sqlite
