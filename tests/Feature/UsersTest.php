@@ -169,4 +169,14 @@ class UsersTest extends TestCase
 
         $this->assertEquals($data['name'], json_decode($response->getOriginalContent())->name);
     }
+
+    public function test_destroy()
+    {
+        $response = $this->delete('/api/users/1', [
+            'Authorization' => 'Bearer ' . $this->accessToken
+        ]);
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertEquals('', json_decode($response->getOriginalContent()));
+    }
 }
