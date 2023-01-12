@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -74,4 +75,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @throws Exception
+     */
+    static function register($data): array
+    {
+        try {
+//            dd($data);
+            User::create($data);
+            // 例外が発生する可能性のあるコード
+//            throw new Exception("aaaaaaaaaaa");
+            return ["data"=>"success","error"=>null];
+        } catch (Exception $e) {
+            // 例外が発生した場合に行う処理
+            return ["data"=>"","error"=>$e];
+        }
+
+    }
 }
