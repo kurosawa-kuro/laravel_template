@@ -79,17 +79,14 @@ class User extends Authenticatable
     /**
      * @throws Exception
      */
-    static function register($userData): array
+    static function register($inputData): array
     {
         try {
-            User::create($userData);
-
-            throw new Exception("例外を意図的に発生させました");
+            User::create($inputData);
+//            throw new Exception("例外を意図的に発生させました");
 
             return array($data = "success", $error = null);
         } catch (Exception $e) {
-
-
 
             return array($data = null, $error = $e);
         }

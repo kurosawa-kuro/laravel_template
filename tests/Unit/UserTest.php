@@ -12,61 +12,34 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-//    /**
-//     * A basic test example.
-//     *
-//     * @return void
-//     */
-//    public function test_user_create()
-//    {
-//        $data = [
-//            'name' => 'aaa',
-//            'email' => 'aaa@aaa.aaa',
-//            'password' => 'aaa',
-//            'password_confirm' => 'aaa',
-//            'role' => 'user',
-//            'avatar' => 'https://i.pravatar.cc/300',
-//        ];
-//
-//        $user = User::create([
-//            'name' => $data['name'],
-//            'email' => $data['email'],
-//            'role' => $data['role'],
-//            'avatar' => $data['avatar'],
-//            'password' => $data['password'],
-//        ]);
-//
-//        $this->assertEquals(1,$user->count());
-//    }
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test_user_create()
+    {
+        $data = [
+            'name' => 'aaa',
+            'email' => 'aaa@aaa.aaa',
+            'password' => 'aaa',
+            'password_confirm' => 'aaa',
+            'role' => 'user',
+            'avatar' => 'https://i.pravatar.cc/300',
+        ];
 
-//    /**
-//     * A basic test example.
-//     *
-//     * @return void
-//     */
-//    public function test_user_create()
-//    {
-//        $this->assertTrue(true);
-////        $data = [
-////            'name' => 'aaa',
-////            'email' => 'aaa@aaa.aaa',
-////            'password' => 'aaa',
-////            'password_confirm' => 'aaa',
-////            'role' => 'user',
-////            'avatar' => 'https://i.pravatar.cc/300',
-////        ];
-////
-////        $user = User::create([
-////            'name'=>data[name],
-////            'email'=>data[email],
-////            'role'=>data[role],
-////            'avatar'=>data[avatar],
-////            'password'=>data[password],
-////        ]);
-//
-//        $this->assertTrue(true);
-////        dd($user);
-//    }
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => $data['role'],
+            'avatar' => $data['avatar'],
+            'password' => $data['password'],
+        ]);
+
+        $this->assertEquals(1,$user->count());
+    }
+
+
 
     /**
      * A basic test example.
@@ -76,7 +49,7 @@ class UserTest extends TestCase
      */
     public function test_user_method()
     {
-        $userData = [
+        $inputData = [
             'name' => 'aaa test',
             'email' => 'aaa@aaa.aaa',
             'password' => 'aaa',
@@ -85,16 +58,17 @@ class UserTest extends TestCase
             'avatar' => 'https://i.pravatar.cc/300',
         ];
 
-        list($data, $error) = User::register($userData);
+        list($data, $error) = User::register($inputData);
 
         if($error){
             dd($error);
         }
 
-        \Log::debug($data);
+        print $data;
+            \Log::debug($data);
 
         $users = User::get();
-        dd($users->toJson());
-        $this->assertTrue(true);
+//        dd($users->toJson());
+        $this->assertEquals("success", $data);
     }
 }
