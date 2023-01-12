@@ -76,7 +76,7 @@ class UserTest extends TestCase
      */
     public function test_user_method()
     {
-        $data = [
+        $userData = [
             'name' => 'aaa test',
             'email' => 'aaa@aaa.aaa',
             'password' => 'aaa',
@@ -85,14 +85,16 @@ class UserTest extends TestCase
             'avatar' => 'https://i.pravatar.cc/300',
         ];
 
-        $result = User::register($data);
+        list($data, $error) = User::register($userData);
 
-        if($result["error"]){
-            dd($result["error"]);
+        if($error){
+            dd($error);
         }
 
+        \Log::debug($data);
+
         $users = User::get();
-        dd($users);
+        dd($users->toJson());
         $this->assertTrue(true);
     }
 }
