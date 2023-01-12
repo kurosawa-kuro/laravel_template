@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -82,10 +83,22 @@ class User extends Authenticatable
     static function register($inputData): array
     {
         try {
-            User::create($inputData);
+            $foundUserByEmail = User::where('email', $inputData['email'])->get();
+
+            if($foundUserByEmail->count() > 1){
+                throw new Exception("そのメールアドレスは既に登録されています。");
+            }
+
+//            print_r($inputData);
+//            print_r($inputData["password"]);
+            $inputData["password"] = Hash::make($inputData["password"]);
+//            print_r($inputData);
+
+            $user =  User::create($inputData);
+//            dd($user->toArray());
 //            throw new Exception("例外を意図的に発生させました");
 
-            return array($data = "success", $error = null);
+            return array($data = $user, $error = null);
         } catch (Exception $e) {
 
             return array($data = null, $error = $e);

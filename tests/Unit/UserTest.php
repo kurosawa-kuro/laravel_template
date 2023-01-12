@@ -64,11 +64,16 @@ class UserTest extends TestCase
             dd($error);
         }
 
-        print $data;
-            \Log::debug($data);
+        unset($data['id']);
+        unset($data['updated_at']);
+        unset($data['created_at']);
+//        dd($data->toArray());
 
         $users = User::get();
 //        dd($users->toJson());
-        $this->assertEquals("success", $data);
+        unset($inputData['password']);
+        unset($inputData['password_confirm']);
+        $this->assertEquals($inputData, $data->toArray());
+        $this->assertEquals(1,$users->count());
     }
 }
