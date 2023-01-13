@@ -69,6 +69,7 @@ class UserTest extends TestCase
         unset($data['created_at']);
 //        dd($data->toArray());
 
+
         $users = User::get();
 //        dd($users->toJson());
         unset($inputData['password']);
