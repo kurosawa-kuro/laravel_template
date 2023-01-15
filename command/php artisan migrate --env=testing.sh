@@ -1,1 +1,1 @@
-composer install
+php artisan migrate --env=testing
