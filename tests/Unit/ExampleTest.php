@@ -6,10 +6,12 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     private function testSeeder()
     {
+        User::truncate();
+
         $this->seed(UserSeeder::class);
     }
 
