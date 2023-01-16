@@ -11,7 +11,7 @@ php artisan serve
 
 ```
 php artisan make:model Hoge --all
-php artisan make:model --mfs Hoge 
+php artisan make:model -mfs Hoge 
 php artisan make:seeder HogesTableSeeder
 php artisan migrate
 php artisan db:seed
